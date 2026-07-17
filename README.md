@@ -2,79 +2,86 @@
 
 <img src="https://cdn.phototourl.com/free/2026-07-15-b653e649-55d7-42e9-8afc-2206ba69ac61.gif" width="100%" />
 
-# 🕷️ Spider Host - Official Deployment Guide
-
-**High-Performance Telegram Bot Hosting for Everyone**
+# 🕷️ SPIDER HOST | OFFICIAL
+**The Ultimate High-Performance Telegram Bot Hosting Solution**
 
 <br>
 
-<!-- Support & Join Buttons -->
-<a href="https://t.me/your_channel_username">
-  <img src="https://img.shields.io/badge/Support-Join_Telegram_Channel-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" />
+<!-- Official Channel & Support -->
+<a href="https://t.me/ToxicCodeVerse">
+  <img src="https://img.shields.io/badge/Channel-ToxicCodeVerse-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" />
 </a>
 <a href="https://railway.app">
-  <img src="https://img.shields.io/badge/Deploy-Railway_App-000000?style=for-the-badge&logo=railway&logoColor=white" />
+  <img src="https://img.shields.io/badge/Deploy-Railway-000000?style=for-the-badge&logo=railway&logoColor=white" />
 </a>
 
 </div>
 
 ---
 
-## 📋 Prerequisites
-*Basic cheezein jo aapke paas honi chahiye:*
+## 📋 Requirements
+Deployment se pehle ye cheezein ready rakhein:
 
-1.  **GitHub Account**: [Click here](https://github.com) to create one.
-2.  **Railway Account**: [Click here](https://railway.app) to sign up (Free $5/month credit).
-3.  **Telegram Bot Token**: Message [@BotFather](https://t.me/botfather) and create a new bot.
-4.  **Telegram User ID**: Message [@userinfobot](https://t.me/userinfobot) to get your ID.
+1.  **GitHub Account**: [github.com](https://github.com)
+2.  **Railway Account**: [railway.app](https://railway.app) (Free Credits available)
+3.  **Bot Token**: [@BotFather](https://t.me/botfather) se token generate karein.
+4.  **User ID**: [@userinfobot](https://t.me/userinfobot) se apni ID copy karein.
 
 ---
 
 ## ⚙️ Essential Configuration
-Railway ke **Variables** tab mein jaakar yeh values zaroor set karein:
+Railway Dashboard mein **Settings > Variables** par jaakar in values ko set karein:
 
-| Variable | Description |
+| Variable | Value/Description |
 | :--- | :--- |
-| **`BOT_TOKEN`** | Token jo @BotFather se mila hai. |
-| **`OWNER_ID`** | Aapki Telegram User ID. |
-| **`WELCOME_IMAGE_URL`** | GIF link (Banner ke liye). |
-| **`MAIN_LINK_URL`** | Aapke Channel ya Group ka link. |
-| **`MAIN_LINK_TEXT`** | Jo text link pe dikhana hai (e.g., 🔗 Join Now). |
-| **`CHANNEL_ID`** | Aapka Channel ID (-100 se shuru hota hai). |
+| **`BOT_TOKEN`** | Telegram Bot Token |
+| **`OWNER_ID`** | Aapki Main User ID (Primary) |
+| **`OWNER_ID_2`** | Second User ID (Secondary) |
+| **`WELCOME_IMAGE_URL`** | `https://cdn.phototourl.com/free/2026-07-15-b653e649-55d7-42e9-8afc-2206ba69ac61.gif` |
+| **`MAIN_LINK_URL`** | `https://t.me/ToxicCodeVerse` |
+| **`MAIN_LINK_TEXT`** | 🕷️ Spider Host Official |
+| **`CHANNEL_ID`** | Aapka Channel ID (-100...) |
 
 ---
 
-## 🚀 Step-by-Step Deployment Guide
-
-1.  **Fork/Upload**: Apna project GitHub par upload karein.
-2.  **Connect to Railway**: Railway Dashboard par jaakar "New Project" par click karein aur apna GitHub repo select karein.
-3.  **Setup Variables**: Upar di gayi table ke hisaab se saare variables **Variables** tab mein daalein.
-4.  **Deploy**: Railway automatically build start kar dega. "Deployments" tab mein check karein.
-5.  **Enjoy**: Bot successfully deploy hone ke baad aapke Telegram par live ho jayega!
+## 🚀 How to Deploy
+1. **Repository Setup**: GitHub par files upload/fork karein.
+2. **Connect**: Railway.app par login karke "Deploy from GitHub" choose karein.
+3. **Variables**: Upar di gayi table ke anusaar variables add karein.
+4. **Launch**: Deployment automatic start ho jayegi!
 
 ---
 
 ## 🛠️ Bot Commands
-Bot ko control karne ke liye ye commands use karein:
-
-*   `/start` - Bot ko start karein.
-*   `/status` - Bot ki performance check karein.
-*   `/adminpanel` - Admin settings access karein.
-*   `/ping` - Server ki latency check karein.
+*   `/start` — Initialize Bot Interaction
+*   `/status` — Check Server & Bot Stats
+*   `/adminpanel` — Access Admin Management
+*   `/ping` — Check Response Latency
 
 ---
 
 <div align="center">
 
-### 🛡️ Need Help?
-Agar koi problem aaye, toh humare Telegram channel par join karein.
+### 🛡️ Developed By Founders
 
-<a href="https://t.me/your_channel_username">
-  <img src="https://img.shields.io/badge/Chat_With_Us-Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" />
+<br>
+
+<a href="https://t.me/TylerDurden21">
+  <img src="https://img.shields.io/badge/Founder-@TylerDurden21-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" />
+</a>
+<a href="https://t.me/SegsyToxic95">
+  <img src="https://img.shields.io/badge/Founder-@SegsyToxic95-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" />
 </a>
 
 <br><br>
 
-**Developed by Spider Host | 2026**
+### 📢 Official Channel
+<a href="https://t.me/ToxicCodeVerse">
+  <img src="https://img.shields.io/badge/Join-ToxicCodeVerse-26A5E4?style=flat-square&logo=telegram" />
+</a>
+
+<br><br>
+
+**© 2026 Spider Host | Powering Excellence with ToxicCodeVerse**
 
 </div>
