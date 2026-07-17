@@ -50,13 +50,13 @@ YOUR_USERNAME_2 = os.environ.get("YOUR_USERNAME_2", "@SegsyToxic95")  # Second o
 # Channel settings
 CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1004412468420"))
 CHANNEL_NAME = os.environ.get("CHANNEL_NAME", "🕷️ Spider Host Official")
-CHANNEL_LINK = os.environ.get("CHANNEL_LINK", "https://t.me/ToxicCodeVerse")
+CHANNEL_LINK = os.environ.get("CHANNEL_LINK", "https://t.me/+VEx8BbfjftcwMWQ1")
 
 # Welcome image (ONLY on /start welcome)
 WELCOME_IMAGE_URL = os.environ.get("WELCOME_IMAGE_URL", "https://cdn.phototourl.com/free/2026-07-15-b653e649-55d7-42e9-8afc-2206ba69ac61.gif")
 
 # Main link button
-MAIN_LINK_URL = os.environ.get("MAIN_LINK_URL", "https://t.me/ToxicCodeVerse")
+MAIN_LINK_URL = os.environ.get("MAIN_LINK_URL", "https://t.me/+VEx8BbfjftcwMWQ1")
 MAIN_LINK_TEXT = os.environ.get("MAIN_LINK_TEXT", "🔗 Join Channel")
 
 # Folder setup
