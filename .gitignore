@@ -31,3 +31,4 @@ inf/
 upload_bots/
 *.db
 *.log
+*.bak

@@ -846,8 +846,16 @@ def get_pending_count():
 
 # ==================== ADMIN PANEL OPTION HANDLERS ====================
 
-def send_admin_panel_menu(call):
-    bot.answer_callback_query(call.id)
+def send_admin_panel_menu(target):
+    if isinstance(target, types.CallbackQuery):
+        bot.answer_callback_query(target.id)
+        chat_id = target.message.chat.id
+        msg_id = target.message.message_id
+        use_edit = True
+    else:
+        chat_id = target.chat.id
+        msg_id = None
+        use_edit = False
     markup = types.InlineKeyboardMarkup(row_width=1)
     markup.add(types.InlineKeyboardButton("1. All Users", callback_data='admin_opt_1'))
     markup.add(types.InlineKeyboardButton("2. User Details", callback_data='admin_opt_2'))
@@ -910,11 +918,14 @@ def send_admin_panel_menu(call):
     markup.add(types.InlineKeyboardButton("59. Set Max File Size", callback_data='admin_opt_59'))
     markup.add(types.InlineKeyboardButton("60. View Channel Stats", callback_data='admin_opt_60'))
     markup.add(types.InlineKeyboardButton("🔙 Back", callback_data='admin_panel'))
-    try:
-        edit_with_link(call.message.chat.id, call.message.message_id,
-                       f"{BOT_NAME}\n\n👑 Admin Panel (60+ Options)\n\nSelect an option:", reply_markup=markup)
-    except:
-        bot.send_message(call.message.chat.id, "Admin Panel:", reply_markup=markup)
+    if use_edit:
+        try:
+            edit_with_link(chat_id, msg_id,
+                           f"{BOT_NAME}\n\n👑 Admin Panel (60+ Options)\n\nSelect an option:", reply_markup=markup)
+        except:
+            bot.send_message(chat_id, "Admin Panel:", reply_markup=markup)
+    else:
+        send_with_link(chat_id, f"{BOT_NAME}\n\n👑 Admin Panel (60+ Options)\n\nSelect an option:", reply_markup=markup)
 
 def admin_opt_users(call):
     bot.answer_callback_query(call.id)
@@ -1985,6 +1996,36 @@ def admin_opt_channel_stats(call):
     markup = types.InlineKeyboardMarkup(row_width=1)
     markup.add(types.InlineKeyboardButton("🔙 Back", callback_data='send_admin_panel_menu'))
     edit_with_link(call.message.chat.id, call.message.message_id, text, reply_markup=markup, parse_mode='Markdown')
+
+def send_with_link(chat_id, text, reply_markup=None, parse_mode=None, reply_to_message_id=None):
+    if reply_markup and isinstance(reply_markup, types.InlineKeyboardMarkup):
+        nm = types.InlineKeyboardMarkup(row_width=reply_markup.row_width)
+        nm.add(types.InlineKeyboardButton(f"📢 {CHANNEL_NAME}", url=CHANNEL_LINK))
+        for row in reply_markup.keyboard:
+            nm.row(*row)
+        reply_markup = nm
+    elif not reply_markup:
+        reply_markup = types.InlineKeyboardMarkup(row_width=1)
+        reply_markup.add(types.InlineKeyboardButton(f"📢 {CHANNEL_NAME}", url=CHANNEL_LINK))
+    kw = {'reply_markup': reply_markup, 'parse_mode': parse_mode}
+    if reply_to_message_id:
+        kw['reply_to_message_id'] = reply_to_message_id
+    return bot.send_message(chat_id, text, **kw)
+
+def reply_with_link(message, text, reply_markup=None, parse_mode=None):
+    return send_with_link(message.chat.id, text, reply_markup=reply_markup, parse_mode=parse_mode, reply_to_message_id=message.message_id)
+
+def edit_with_link(chat_id, msg_id, text, reply_markup=None, parse_mode=None):
+    if reply_markup and isinstance(reply_markup, types.InlineKeyboardMarkup):
+        nm = types.InlineKeyboardMarkup(row_width=reply_markup.row_width)
+        nm.add(types.InlineKeyboardButton(f"📢 {CHANNEL_NAME}", url=CHANNEL_LINK))
+        for row in reply_markup.keyboard:
+            nm.row(*row)
+        reply_markup = nm
+    try:
+        return bot.edit_message_text(text, chat_id, msg_id, reply_markup=reply_markup, parse_mode=parse_mode)
+    except:
+        return None
 
 # ==================== COMMAND HANDLERS ====================
 REPLY_BUTTONS = [
