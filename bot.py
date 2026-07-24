@@ -905,40 +905,58 @@ def get_pending_count():
 
 # ==================== ADMIN PANEL OPTION HANDLERS ====================
 
-ADMIN_OPTIONS = [
-    ("1. All Users", 'admin_opt_1'), ("2. User Details", 'admin_opt_2'),
-    ("3. Search User", 'admin_opt_3'), ("4. Ban User", 'admin_opt_4'),
-    ("5. Unban User", 'admin_opt_5'), ("6. Delete User", 'admin_opt_6'),
-    ("7. User Bot Count", 'admin_opt_7'), ("8. Export Users", 'admin_opt_8'),
-    ("9. View Plans", 'admin_opt_9'), ("10. Add Plan", 'admin_opt_10'),
-    ("11. Edit Plan", 'admin_opt_11'), ("12. Toggle Plan", 'admin_opt_12'),
-    ("13. Delete Plan", 'admin_opt_13'), ("14. Plan Stats", 'admin_opt_14'),
-    ("15. View Payments", 'admin_opt_15'), ("16. Approve Payment", 'admin_opt_16'),
-    ("17. Reject Payment", 'admin_opt_17'), ("18. Payment Stats", 'admin_opt_18'),
-    ("19. Set UPI ID", 'admin_opt_19'), ("20. Refund Payment", 'admin_opt_20'),
-    ("21. All Hosted Bots", 'admin_opt_21'), ("22. User Bots", 'admin_opt_22'),
-    ("23. Kill Bot", 'admin_opt_23'), ("24. Restart Bot", 'admin_opt_24'),
-    ("25. Delete Bot File", 'admin_opt_25'), ("26. View Bot Logs", 'admin_opt_26'),
-    ("27. Pending Approvals", 'admin_opt_27'), ("28. Approve Bot", 'admin_opt_28'),
-    ("29. Reject Bot", 'admin_opt_29'), ("30. Approve All", 'admin_opt_30'),
-    ("31. All Referrals", 'admin_opt_31'), ("32. Referral Stats", 'admin_opt_32'),
-    ("33. Add Referral Slot", 'admin_opt_33'), ("34. User Referrals", 'admin_opt_34'),
-    ("35. Broadcast All", 'admin_opt_35'), ("36. Broadcast Free", 'admin_opt_36'),
-    ("37. Broadcast Paid", 'admin_opt_37'), ("38. Send to User", 'admin_opt_38'),
-    ("39. Edit Message", 'admin_opt_39'), ("40. View Messages", 'admin_opt_40'),
-    ("41. Platform Settings", 'admin_opt_41'), ("42. Toggle Lock", 'admin_opt_42'),
-    ("43. Manage Admins", 'admin_opt_43'), ("44. Platform Stats", 'admin_opt_44'),
-    ("45. DB Backup", 'admin_opt_45'), ("46. Error Logs", 'admin_opt_46'),
-    ("47. GitHub Settings", 'admin_opt_47'), ("48. Backup Logs", 'admin_opt_48'),
-    ("49. Set Free Limit", 'admin_opt_49'), ("50. View Error Msgs", 'admin_opt_50'),
-    ("51. View Server Health", 'admin_opt_51'), ("52. Reset User Stats", 'admin_opt_52'),
-    ("53. Kill All Bots", 'admin_opt_53'), ("54. View Session Info", 'admin_opt_54'),
-    ("55. Force User Ref", 'admin_opt_55'), ("56. Plan Comparison", 'admin_opt_56'),
-    ("57. View Payment Methods", 'admin_opt_57'), ("58. Edit Welcome Text", 'admin_opt_58'),
-    ("59. Set Max File Size", 'admin_opt_59'), ("60. View Channel Stats", 'admin_opt_60'),
+ADMIN_PAGES = [
+    ("👥 Users", [
+        ("👤 All Users", 'admin_opt_1'), ("🔍 Search", 'admin_opt_3'),
+        ("🚫 Ban", 'admin_opt_4'), ("✅ Unban", 'admin_opt_5'),
+        ("🗑 Delete", 'admin_opt_6'), ("📊 Bot Count", 'admin_opt_7'),
+        ("📤 Export", 'admin_opt_8'), ("🔎 Details", 'admin_opt_2'),
+    ]),
+    ("💎 Plans", [
+        ("📋 Assign Plan", 'admin_opt_10'), ("✏️ Edit", 'admin_opt_11'),
+        ("🔄 Toggle", 'admin_opt_12'), ("🗑 Delete", 'admin_opt_13'),
+        ("📊 Stats", 'admin_opt_14'), ("📋 View", 'admin_opt_9'),
+    ]),
+    ("💰 Payments", [
+        ("📋 View", 'admin_opt_15'), ("✅ Approve", 'admin_opt_16'),
+        ("❌ Reject", 'admin_opt_17'), ("📊 Stats", 'admin_opt_18'),
+        ("🏦 Set UPI", 'admin_opt_19'), ("💸 Refund", 'admin_opt_20'),
+    ]),
+    ("🤖 Bots", [
+        ("📦 All Hosted", 'admin_opt_21'), ("👤 User Bots", 'admin_opt_22'),
+        ("💀 Kill", 'admin_opt_23'), ("🔄 Restart", 'admin_opt_24'),
+        ("🗑 Delete File", 'admin_opt_25'), ("📜 Logs", 'admin_opt_26'),
+    ]),
+    ("⏳ Approvals", [
+        ("⏳ Pending", 'admin_opt_27'), ("✅ Approve", 'admin_opt_28'),
+        ("❌ Reject", 'admin_opt_29'), ("✅ Approve All", 'admin_opt_30'),
+    ]),
+    ("🔗 Referrals", [
+        ("📋 All", 'admin_opt_31'), ("📊 Stats", 'admin_opt_32'),
+        ("➕ Add Slot", 'admin_opt_33'), ("👤 User Ref", 'admin_opt_34'),
+    ]),
+    ("📢 Broadcast", [
+        ("📢 All Users", 'admin_opt_35'), ("🆓 Free", 'admin_opt_36'),
+        ("💎 Paid", 'admin_opt_37'), ("📨 Send to User", 'admin_opt_38'),
+    ]),
+    ("✏️ Messages", [
+        ("✏️ Edit", 'admin_opt_39'), ("📋 View", 'admin_opt_40'),
+    ]),
+    ("⚙️ Settings", [
+        ("⚙️ Platform", 'admin_opt_41'), ("🔒 Lock", 'admin_opt_42'),
+        ("👑 Admins", 'admin_opt_43'), ("📊 Stats", 'admin_opt_44'),
+        ("💾 DB Backup", 'admin_opt_45'), ("📋 Errors", 'admin_opt_46'),
+        ("🐙 GitHub", 'admin_opt_47'), ("📦 Backup Logs", 'admin_opt_48'),
+        ("📏 Free Limit", 'admin_opt_49'), ("📋 Error Msgs", 'admin_opt_50'),
+    ]),
+    ("🛠️ Tools", [
+        ("🖥 Health", 'admin_opt_51'), ("🔄 Reset Stats", 'admin_opt_52'),
+        ("💀 Kill All", 'admin_opt_53'), ("📋 Session", 'admin_opt_54'),
+        ("📌 Force Ref", 'admin_opt_55'), ("📊 Comparison", 'admin_opt_56'),
+        ("💳 Methods", 'admin_opt_57'), ("📝 Welcome", 'admin_opt_58'),
+        ("📏 Max Size", 'admin_opt_59'), ("📊 Channel", 'admin_opt_60'),
+    ]),
 ]
-
-ADMIN_PER_PAGE = 8
 
 def send_admin_panel_menu(target, page=0):
     if isinstance(target, types.CallbackQuery):
@@ -951,13 +969,11 @@ def send_admin_panel_menu(target, page=0):
         msg_id = None
         use_edit = False
 
-    total_pages = (len(ADMIN_OPTIONS) + ADMIN_PER_PAGE - 1) // ADMIN_PER_PAGE
-    start = page * ADMIN_PER_PAGE
-    end = min(start + ADMIN_PER_PAGE, len(ADMIN_OPTIONS))
-    page_opts = ADMIN_OPTIONS[start:end]
+    total_pages = len(ADMIN_PAGES)
+    cat_title, options = ADMIN_PAGES[page]
 
-    markup = types.InlineKeyboardMarkup(row_width=1)
-    for label, cb in page_opts:
+    markup = types.InlineKeyboardMarkup(row_width=2)
+    for label, cb in options:
         markup.add(types.InlineKeyboardButton(label, callback_data=cb))
 
     nav_buttons = []
@@ -971,7 +987,7 @@ def send_admin_panel_menu(target, page=0):
         markup.add(nav_buttons[0])
 
     markup.add(types.InlineKeyboardButton("🔙 Back", callback_data='admin_panel'))
-    text = f"{BOT_NAME}\n\n👑 Admin Panel ({len(ADMIN_OPTIONS)} Options)\nPage {page+1}/{total_pages}\n\nSelect an option:"
+    text = f"{BOT_NAME}\n\n👑 Admin Panel — {cat_title}\nPage {page+1}/{total_pages}\n\nSelect an option:"
     if use_edit:
         try:
             edit_with_link(chat_id, msg_id, text, reply_markup=markup)
@@ -982,13 +998,14 @@ def send_admin_panel_menu(target, page=0):
 
 def admin_opt_users(call):
     bot.answer_callback_query(call.id)
-    users_list = []
-    for uid, up in user_plans.items():
+    text = f"{BOT_NAME}\n\n👥 **All Users** ({len(user_plans)}):\n\n"
+    for uid, up in list(user_plans.items())[:50]:
         plan = up.get('plan', 'free')
         count = get_user_bot_count(uid)
         banned = '🚫' if up.get('is_banned') else '✅'
-        users_list.append(f"{banned} `{uid}` - {plan} ({count} bots) - {up.get('first_name','?')}")
-    text = f"{BOT_NAME}\n\n👥 All Users ({len(user_plans)}):\n\n" + "\n".join(users_list[:50])
+        text += f"{banned} `{uid}` - {plan} ({count} bots) - {up.get('first_name','?')}\n"
+    if len(user_plans) > 50:
+        text += f"\n...and {len(user_plans) - 50} more"
     if len(user_plans) > 50:
         text += f"\n... and {len(user_plans) - 50} more"
     markup = types.InlineKeyboardMarkup(row_width=1)
@@ -1175,36 +1192,49 @@ def admin_opt_plans(call):
         dd = "30" if dur == 0 and price == 0 else str(dur)
         text += f"• ID {pid}: **{name}** - {'Free' if price == 0 else f'Rs {price}'} - {lim} bots - {dd}d - {'✅' if active else '❌'}\n  {desc or ''}\n\n"
     markup = types.InlineKeyboardMarkup(row_width=2)
-    markup.add(types.InlineKeyboardButton("➕ Add Plan", callback_data='admin_opt_10'), types.InlineKeyboardButton("🔙 Back", callback_data='send_admin_panel_menu'))
+    markup.add(types.InlineKeyboardButton("📋 Assign", callback_data='admin_opt_10'), types.InlineKeyboardButton("🔙 Back", callback_data='send_admin_panel_menu'))
     edit_with_link(call.message.chat.id, call.message.message_id, text, reply_markup=markup, parse_mode='Markdown')
 
 def admin_opt_add_plan(call):
     bot.answer_callback_query(call.id)
-    msg = bot.send_message(call.message.chat.id, "Enter plan details (Name | Price | Bot Limit | Duration Days | Description):\nExample: Custom Plan | 100 | 50 | 30 | My custom plan")
-    bot.register_next_step_handler(msg, process_admin_opt_add_plan)
+    plans = get_all_plans()
+    text = f"{BOT_NAME}\n\n📋 **Assign Plan to User**\n\nSelect a plan to assign:\n\n"
+    markup = types.InlineKeyboardMarkup(row_width=1)
+    for p in plans:
+        pid, name, price, bl, dur, active, desc = p
+        lim = "∞" if bl == float('inf') else str(bl)
+        pr = "FREE" if price == 0 else f"Rs{price}"
+        markup.add(types.InlineKeyboardButton(f"{name} - {pr} | {lim} bots", callback_data=f'assign_plan_{pid}'))
+    markup.add(types.InlineKeyboardButton("🔙 Back", callback_data='send_admin_panel_menu'))
+    edit_with_link(call.message.chat.id, call.message.message_id, text, reply_markup=markup, parse_mode='Markdown')
 
-def process_admin_opt_add_plan(message):
+def admin_opt_assign_plan_callback(call, plan_id):
+    bot.answer_callback_query(call.id)
+    msg = bot.send_message(call.message.chat.id, f"Enter User ID to assign plan #{plan_id}:")
+    bot.register_next_step_handler(msg, lambda m, pid=plan_id: process_admin_opt_assign_plan(m, pid))
+
+def process_admin_opt_assign_plan(message, plan_id):
     if not is_admin(message.from_user.id): return
     if message.text.lower() == '/cancel': bot.reply_to(message, "Cancelled."); return
     try:
-        parts = [p.strip() for p in message.text.split('|')]
-        if len(parts) < 3: raise ValueError("Need at least Name | Price | Bot Limit")
-        name = parts[0]
-        existing = db_fetch_one("SELECT plan_id FROM plans WHERE name = ?", (name,))
-        if existing:
-            bot.reply_to(message, f"❌ Plan '{name}' already exists (ID {existing[0]}). Use Edit Plan to modify.")
+        user_id = int(message.text.strip())
+        plan = db_fetch_one("SELECT * FROM plans WHERE plan_id = ?", (plan_id,))
+        if not plan:
+            bot.reply_to(message, f"Plan #{plan_id} not found.")
             return
-        price = float(parts[1]) if parts[1] else 0
-        bot_limit = int(parts[2]) if parts[2] else 0
-        duration = int(parts[3]) if len(parts) > 3 and parts[3] else 0
-        desc = parts[4].strip() if len(parts) > 4 else ''
-        db_query("INSERT INTO plans (name, price, bot_limit, duration_days, description) VALUES (?,?,?,?,?)",
-                 (name, price, bot_limit, duration, desc))
-        bot.reply_to(message, f"✅ Plan '{name}' added (₹{price}, {bot_limit if bot_limit != float('inf') else '∞'} bots)")
-    except Exception as e:
-        bot.reply_to(message, f"Error: {e}\nFormat: Name | Price | Bot Limit | Duration Days | Description")
-        msg = bot.send_message(message.chat.id, "Enter plan details:")
-        bot.register_next_step_handler(msg, process_admin_opt_add_plan)
+        name, price, bl, dur = plan[1], plan[2], plan[3], plan[4]
+        expiry = (datetime.now() + timedelta(days=dur)).isoformat() if dur > 0 else None
+        up = user_plans.get(user_id, {})
+        up['plan'] = name
+        up['expiry_date'] = expiry
+        user_plans[user_id] = up
+        db_query("UPDATE users SET plan = ? WHERE user_id = ?", (name, user_id))
+        try:
+            bot.send_message(user_id, f"✅ **{name}** activated for you by admin!\n\nHost your bots now.", parse_mode='Markdown')
+        except: pass
+        bot.reply_to(message, f"✅ Plan **{name}** assigned to user `{user_id}`", parse_mode='Markdown')
+    except ValueError:
+        bot.reply_to(message, "❌ Invalid User ID. Enter a numeric ID.")
 
 def admin_opt_edit_plan(call):
     bot.answer_callback_query(call.id)
@@ -2707,6 +2737,11 @@ def handle_callbacks(call):
         bot.answer_callback_query(call.id)
         pid = int(data.replace('buy_plan_', ''))
         process_plan_purchase(call, pid)
+        return
+
+    if data.startswith('assign_plan_'):
+        pid = int(data.replace('assign_plan_', ''))
+        admin_opt_assign_plan_callback(call, pid)
         return
 
     bot.answer_callback_query(call.id, "Action processed.")
