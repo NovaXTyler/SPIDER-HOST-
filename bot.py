@@ -90,6 +90,9 @@ verified_users = set()
 user_plans = {}
 user_bot_counts = {}
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
 DB_LOCK = threading.Lock()
 
 def init_db():
@@ -205,9 +208,6 @@ def db_fetch_one(query, args=()):
         result = c.fetchone()
         conn.close()
         return result
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
 
 def get_user_plan_info(user_id):
     if user_id == OWNER_ID:
