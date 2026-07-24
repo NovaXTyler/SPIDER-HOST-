@@ -846,7 +846,42 @@ def get_pending_count():
 
 # ==================== ADMIN PANEL OPTION HANDLERS ====================
 
-def send_admin_panel_menu(target):
+ADMIN_OPTIONS = [
+    ("1. All Users", 'admin_opt_1'), ("2. User Details", 'admin_opt_2'),
+    ("3. Search User", 'admin_opt_3'), ("4. Ban User", 'admin_opt_4'),
+    ("5. Unban User", 'admin_opt_5'), ("6. Delete User", 'admin_opt_6'),
+    ("7. User Bot Count", 'admin_opt_7'), ("8. Export Users", 'admin_opt_8'),
+    ("9. View Plans", 'admin_opt_9'), ("10. Add Plan", 'admin_opt_10'),
+    ("11. Edit Plan", 'admin_opt_11'), ("12. Toggle Plan", 'admin_opt_12'),
+    ("13. Delete Plan", 'admin_opt_13'), ("14. Plan Stats", 'admin_opt_14'),
+    ("15. View Payments", 'admin_opt_15'), ("16. Approve Payment", 'admin_opt_16'),
+    ("17. Reject Payment", 'admin_opt_17'), ("18. Payment Stats", 'admin_opt_18'),
+    ("19. Set UPI ID", 'admin_opt_19'), ("20. Refund Payment", 'admin_opt_20'),
+    ("21. All Hosted Bots", 'admin_opt_21'), ("22. User Bots", 'admin_opt_22'),
+    ("23. Kill Bot", 'admin_opt_23'), ("24. Restart Bot", 'admin_opt_24'),
+    ("25. Delete Bot File", 'admin_opt_25'), ("26. View Bot Logs", 'admin_opt_26'),
+    ("27. Pending Approvals", 'admin_opt_27'), ("28. Approve Bot", 'admin_opt_28'),
+    ("29. Reject Bot", 'admin_opt_29'), ("30. Approve All", 'admin_opt_30'),
+    ("31. All Referrals", 'admin_opt_31'), ("32. Referral Stats", 'admin_opt_32'),
+    ("33. Add Referral Slot", 'admin_opt_33'), ("34. User Referrals", 'admin_opt_34'),
+    ("35. Broadcast All", 'admin_opt_35'), ("36. Broadcast Free", 'admin_opt_36'),
+    ("37. Broadcast Paid", 'admin_opt_37'), ("38. Send to User", 'admin_opt_38'),
+    ("39. Edit Message", 'admin_opt_39'), ("40. View Messages", 'admin_opt_40'),
+    ("41. Platform Settings", 'admin_opt_41'), ("42. Toggle Lock", 'admin_opt_42'),
+    ("43. Manage Admins", 'admin_opt_43'), ("44. Platform Stats", 'admin_opt_44'),
+    ("45. DB Backup", 'admin_opt_45'), ("46. Error Logs", 'admin_opt_46'),
+    ("47. GitHub Settings", 'admin_opt_47'), ("48. Backup Logs", 'admin_opt_48'),
+    ("49. Set Free Limit", 'admin_opt_49'), ("50. View Error Msgs", 'admin_opt_50'),
+    ("51. View Server Health", 'admin_opt_51'), ("52. Reset User Stats", 'admin_opt_52'),
+    ("53. Kill All Bots", 'admin_opt_53'), ("54. View Session Info", 'admin_opt_54'),
+    ("55. Force User Ref", 'admin_opt_55'), ("56. Plan Comparison", 'admin_opt_56'),
+    ("57. View Payment Methods", 'admin_opt_57'), ("58. Edit Welcome Text", 'admin_opt_58'),
+    ("59. Set Max File Size", 'admin_opt_59'), ("60. View Channel Stats", 'admin_opt_60'),
+]
+
+ADMIN_PER_PAGE = 8
+
+def send_admin_panel_menu(target, page=0):
     if isinstance(target, types.CallbackQuery):
         bot.answer_callback_query(target.id)
         chat_id = target.message.chat.id
@@ -856,76 +891,35 @@ def send_admin_panel_menu(target):
         chat_id = target.chat.id
         msg_id = None
         use_edit = False
+
+    total_pages = (len(ADMIN_OPTIONS) + ADMIN_PER_PAGE - 1) // ADMIN_PER_PAGE
+    start = page * ADMIN_PER_PAGE
+    end = min(start + ADMIN_PER_PAGE, len(ADMIN_OPTIONS))
+    page_opts = ADMIN_OPTIONS[start:end]
+
     markup = types.InlineKeyboardMarkup(row_width=1)
-    markup.add(types.InlineKeyboardButton("1. All Users", callback_data='admin_opt_1'))
-    markup.add(types.InlineKeyboardButton("2. User Details", callback_data='admin_opt_2'))
-    markup.add(types.InlineKeyboardButton("3. Search User", callback_data='admin_opt_3'))
-    markup.add(types.InlineKeyboardButton("4. Ban User", callback_data='admin_opt_4'))
-    markup.add(types.InlineKeyboardButton("5. Unban User", callback_data='admin_opt_5'))
-    markup.add(types.InlineKeyboardButton("6. Delete User", callback_data='admin_opt_6'))
-    markup.add(types.InlineKeyboardButton("7. User Bot Count", callback_data='admin_opt_7'))
-    markup.add(types.InlineKeyboardButton("8. Export Users", callback_data='admin_opt_8'))
-    markup.add(types.InlineKeyboardButton("9. View Plans", callback_data='admin_opt_9'))
-    markup.add(types.InlineKeyboardButton("10. Add Plan", callback_data='admin_opt_10'))
-    markup.add(types.InlineKeyboardButton("11. Edit Plan", callback_data='admin_opt_11'))
-    markup.add(types.InlineKeyboardButton("12. Toggle Plan", callback_data='admin_opt_12'))
-    markup.add(types.InlineKeyboardButton("13. Delete Plan", callback_data='admin_opt_13'))
-    markup.add(types.InlineKeyboardButton("14. Plan Stats", callback_data='admin_opt_14'))
-    markup.add(types.InlineKeyboardButton("15. View Payments", callback_data='admin_opt_15'))
-    markup.add(types.InlineKeyboardButton("16. Approve Payment", callback_data='admin_opt_16'))
-    markup.add(types.InlineKeyboardButton("17. Reject Payment", callback_data='admin_opt_17'))
-    markup.add(types.InlineKeyboardButton("18. Payment Stats", callback_data='admin_opt_18'))
-    markup.add(types.InlineKeyboardButton("19. Set UPI ID", callback_data='admin_opt_19'))
-    markup.add(types.InlineKeyboardButton("20. Refund Payment", callback_data='admin_opt_20'))
-    markup.add(types.InlineKeyboardButton("21. All Hosted Bots", callback_data='admin_opt_21'))
-    markup.add(types.InlineKeyboardButton("22. User Bots", callback_data='admin_opt_22'))
-    markup.add(types.InlineKeyboardButton("23. Kill Bot", callback_data='admin_opt_23'))
-    markup.add(types.InlineKeyboardButton("24. Restart Bot", callback_data='admin_opt_24'))
-    markup.add(types.InlineKeyboardButton("25. Delete Bot File", callback_data='admin_opt_25'))
-    markup.add(types.InlineKeyboardButton("26. View Bot Logs", callback_data='admin_opt_26'))
-    markup.add(types.InlineKeyboardButton("27. Pending Approvals", callback_data='admin_opt_27'))
-    markup.add(types.InlineKeyboardButton("28. Approve Bot", callback_data='admin_opt_28'))
-    markup.add(types.InlineKeyboardButton("29. Reject Bot", callback_data='admin_opt_29'))
-    markup.add(types.InlineKeyboardButton("30. Approve All", callback_data='admin_opt_30'))
-    markup.add(types.InlineKeyboardButton("31. All Referrals", callback_data='admin_opt_31'))
-    markup.add(types.InlineKeyboardButton("32. Referral Stats", callback_data='admin_opt_32'))
-    markup.add(types.InlineKeyboardButton("33. Add Referral Slot", callback_data='admin_opt_33'))
-    markup.add(types.InlineKeyboardButton("34. User Referrals", callback_data='admin_opt_34'))
-    markup.add(types.InlineKeyboardButton("35. Broadcast All", callback_data='admin_opt_35'))
-    markup.add(types.InlineKeyboardButton("36. Broadcast Free", callback_data='admin_opt_36'))
-    markup.add(types.InlineKeyboardButton("37. Broadcast Paid", callback_data='admin_opt_37'))
-    markup.add(types.InlineKeyboardButton("38. Send to User", callback_data='admin_opt_38'))
-    markup.add(types.InlineKeyboardButton("39. Edit Message", callback_data='admin_opt_39'))
-    markup.add(types.InlineKeyboardButton("40. View Messages", callback_data='admin_opt_40'))
-    markup.add(types.InlineKeyboardButton("41. Platform Settings", callback_data='admin_opt_41'))
-    markup.add(types.InlineKeyboardButton("42. Toggle Lock", callback_data='admin_opt_42'))
-    markup.add(types.InlineKeyboardButton("43. Manage Admins", callback_data='admin_opt_43'))
-    markup.add(types.InlineKeyboardButton("44. Platform Stats", callback_data='admin_opt_44'))
-    markup.add(types.InlineKeyboardButton("45. DB Backup", callback_data='admin_opt_45'))
-    markup.add(types.InlineKeyboardButton("46. Error Logs", callback_data='admin_opt_46'))
-    markup.add(types.InlineKeyboardButton("47. GitHub Settings", callback_data='admin_opt_47'))
-    markup.add(types.InlineKeyboardButton("48. Backup Logs", callback_data='admin_opt_48'))
-    markup.add(types.InlineKeyboardButton("49. Set Free Limit", callback_data='admin_opt_49'))
-    markup.add(types.InlineKeyboardButton("50. View Error Msgs", callback_data='admin_opt_50'))
-    markup.add(types.InlineKeyboardButton("51. View Server Health", callback_data='admin_opt_51'))
-    markup.add(types.InlineKeyboardButton("52. Reset User Stats", callback_data='admin_opt_52'))
-    markup.add(types.InlineKeyboardButton("53. Kill All Bots", callback_data='admin_opt_53'))
-    markup.add(types.InlineKeyboardButton("54. View Session Info", callback_data='admin_opt_54'))
-    markup.add(types.InlineKeyboardButton("55. Force User Ref", callback_data='admin_opt_55'))
-    markup.add(types.InlineKeyboardButton("56. Plan Comparison", callback_data='admin_opt_56'))
-    markup.add(types.InlineKeyboardButton("57. View Payment Methods", callback_data='admin_opt_57'))
-    markup.add(types.InlineKeyboardButton("58. Edit Welcome Text", callback_data='admin_opt_58'))
-    markup.add(types.InlineKeyboardButton("59. Set Max File Size", callback_data='admin_opt_59'))
-    markup.add(types.InlineKeyboardButton("60. View Channel Stats", callback_data='admin_opt_60'))
+    for label, cb in page_opts:
+        markup.add(types.InlineKeyboardButton(label, callback_data=cb))
+
+    nav_buttons = []
+    if page > 0:
+        nav_buttons.append(types.InlineKeyboardButton("◀️ Prev", callback_data=f'admin_page_{page-1}'))
+    if page < total_pages - 1:
+        nav_buttons.append(types.InlineKeyboardButton("Next ▶️", callback_data=f'admin_page_{page+1}'))
+    if len(nav_buttons) == 2:
+        markup.row(*nav_buttons)
+    elif len(nav_buttons) == 1:
+        markup.add(nav_buttons[0])
+
     markup.add(types.InlineKeyboardButton("🔙 Back", callback_data='admin_panel'))
+    text = f"{BOT_NAME}\n\n👑 Admin Panel ({len(ADMIN_OPTIONS)} Options)\nPage {page+1}/{total_pages}\n\nSelect an option:"
     if use_edit:
         try:
-            edit_with_link(chat_id, msg_id,
-                           f"{BOT_NAME}\n\n👑 Admin Panel (60+ Options)\n\nSelect an option:", reply_markup=markup)
+            edit_with_link(chat_id, msg_id, text, reply_markup=markup)
         except:
-            bot.send_message(chat_id, "Admin Panel:", reply_markup=markup)
+            bot.send_message(chat_id, text, reply_markup=markup)
     else:
-        send_with_link(chat_id, f"{BOT_NAME}\n\n👑 Admin Panel (60+ Options)\n\nSelect an option:", reply_markup=markup)
+        send_with_link(chat_id, text, reply_markup=markup)
 
 def admin_opt_users(call):
     bot.answer_callback_query(call.id)
@@ -1460,6 +1454,29 @@ def admin_opt_pending(call):
     markup = types.InlineKeyboardMarkup(row_width=2)
     markup.add(types.InlineKeyboardButton("✅ Approve All", callback_data='admin_opt_30'), types.InlineKeyboardButton("🔙 Back", callback_data='send_admin_panel_menu'))
     edit_with_link(call.message.chat.id, call.message.message_id, text, reply_markup=markup, parse_mode='Markdown')
+
+def admin_opt_approve_all(call):
+    bot.answer_callback_query(call.id)
+    count = 0
+    pending = get_pending_approvals_list()
+    for p in pending:
+        uid = p[1]
+        fname = p[2]
+        ftype = p[3]
+        db_query("UPDATE pending_uploads SET status = 'approved' WHERE upload_id = ?", (p[0],))
+        pending_approvals.pop(p[0], None)
+        save_user_hosted_file(uid, fname, ftype)
+        user_bot_counts[uid] = get_user_bot_count(uid) + 1
+        try:
+            bot.send_message(uid, f"✅ Your bot `{fname}` has been approved! 🎉")
+            uf = get_user_folder(uid)
+            fp = os.path.join(uf, fname)
+            if os.path.exists(fp):
+                start_hosted_bot(uid, uf, fname, ftype, call.message)
+        except: pass
+        count += 1
+    bot.send_message(call.message.chat.id, f"✅ Approved {count} uploads.")
+    back_to_main(call)
 
 def admin_opt_approve_bot(call):
     bot.answer_callback_query(call.id)
@@ -2408,6 +2425,17 @@ def handle_callbacks(call):
     if data == 'admin_panel' and is_admin(user_id):
         bot.answer_callback_query(call.id)
         send_admin_panel_menu(call)
+        return
+
+    if data == 'send_admin_panel_menu' and is_admin(user_id):
+        bot.answer_callback_query(call.id)
+        send_admin_panel_menu(call)
+        return
+
+    if data.startswith('admin_page_') and is_admin(user_id):
+        bot.answer_callback_query(call.id)
+        page = int(data.replace('admin_page_', ''))
+        send_admin_panel_menu(call, page=page)
         return
 
     if data == 'referrals':
