@@ -275,6 +275,58 @@ def get_user_folder(user_id):
     os.makedirs(user_folder, exist_ok=True)
     return user_folder
 
+def is_bot_running(user_id, file_name):
+    key = f"{user_id}_{file_name}"
+    info = bot_scripts.get(key)
+    if not info:
+        return False
+    proc = info.get('process')
+    if not proc:
+        return False
+    try:
+        return proc.poll() is None
+    except:
+        return False
+
+def kill_process_tree(info):
+    if not info:
+        return
+    proc = info.get('process')
+    log_f = info.get('log_file')
+    try:
+        if proc and proc.poll() is None:
+            if hasattr(proc, 'children'):
+                for child in proc.children(recursive=True):
+                    try: child.kill()
+                    except: pass
+                proc.kill()
+                proc.wait(timeout=5)
+            else:
+                import signal
+                os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+    except:
+        try:
+            if proc and proc.poll() is None:
+                proc.kill()
+                proc.wait(timeout=3)
+        except: pass
+    try:
+        if log_f and not log_f.closed:
+            log_f.close()
+    except: pass
+
+def create_main_menu_inline(user_id):
+    markup = types.InlineKeyboardMarkup(row_width=2)
+    markup.add(types.InlineKeyboardButton("📤 Upload", callback_data='upload'),
+               types.InlineKeyboardButton("📂 My Files", callback_data='check_files'))
+    markup.add(types.InlineKeyboardButton("🚀 Speed", callback_data='speed'),
+               types.InlineKeyboardButton("📊 Stats", callback_data='stats'))
+    markup.add(types.InlineKeyboardButton("📋 Plans", callback_data='plans'),
+               types.InlineKeyboardButton("🔗 Referrals", callback_data='referrals'))
+    if is_admin(user_id):
+        markup.add(types.InlineKeyboardButton("👑 Admin Panel", callback_data='admin_panel'))
+    return markup
+
 def backup_user_upload(user_id, file_name, file_type='py', user_details=None, file_path=None):
     try:
         user_info = user_plans.get(user_id, {})
