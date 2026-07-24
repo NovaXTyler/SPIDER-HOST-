@@ -39,7 +39,7 @@ def keep_alive():
     t.start()
 
 BOT_NAME = os.environ.get("BOT_NAME", "Spider Host")
-TOKEN = os.environ.get("BOT_TOKEN", "8135674571:AAH60RNMkiG4cMkvoFJVxSCYfe-DE2lwjtE")
+TOKEN = os.environ.get("BOT_TOKEN", "8871958386:AAFzPG4znCa5xRS2oMur16R74IK4xZktlSA")
 OWNER_ID = int(os.environ.get("OWNER_ID", "6650888707"))
 OWNER_ID_2 = int(os.environ.get("OWNER_ID_2", "8994613565"))
 ADMIN_ID = int(os.environ.get("ADMIN_ID", "6650888707"))
