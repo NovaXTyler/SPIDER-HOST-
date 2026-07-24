@@ -1172,7 +1172,8 @@ def admin_opt_plans(call):
     for p in plans:
         pid, name, price, bl, dur, active, desc = p
         lim = "∞" if bl == float('inf') else str(bl)
-        text += f"• ID {pid}: **{name}** - {'Free' if price == 0 else f'Rs {price}'} - {lim} bots - {dur}d - {'✅' if active else '❌'}\n  {desc or ''}\n\n"
+        dd = "30" if dur == 0 and price == 0 else str(dur)
+        text += f"• ID {pid}: **{name}** - {'Free' if price == 0 else f'Rs {price}'} - {lim} bots - {dd}d - {'✅' if active else '❌'}\n  {desc or ''}\n\n"
     markup = types.InlineKeyboardMarkup(row_width=2)
     markup.add(types.InlineKeyboardButton("➕ Add Plan", callback_data='admin_opt_10'), types.InlineKeyboardButton("🔙 Back", callback_data='send_admin_panel_menu'))
     edit_with_link(call.message.chat.id, call.message.message_id, text, reply_markup=markup, parse_mode='Markdown')
@@ -2014,7 +2015,7 @@ def admin_opt_plan_comparison(call):
         pid, name, price, bl, dur, active, desc = p
         pr = "Free" if price == 0 else f"Rs {price}"
         lim = "∞" if bl == float('inf') else str(bl)
-        d = f"{dur}d" if dur > 0 else "∞"
+        d = "30d" if dur == 0 and price == 0 else (f"{dur}d" if dur > 0 else "∞")
         text += f"{name:<15} {pr:<8} {lim:<8} {d:<10}\n"
     text += "```"
     markup = types.InlineKeyboardMarkup(row_width=1)
@@ -2299,7 +2300,8 @@ def cmd_plans(message):
         if not active: continue
         pr = "FREE" if price == 0 else f"Rs {price}"
         lim = "∞" if bl == float('inf') else str(bl)
-        mk.add(types.InlineKeyboardButton(f"{name}: {pr} | {lim} bots | {dur}days", callback_data=f'buy_plan_{pid}'))
+        dd = "30" if dur == 0 and price == 0 else str(dur)
+        mk.add(types.InlineKeyboardButton(f"{name}: {pr} | {lim} bots | {dd}d", callback_data=f'buy_plan_{pid}'))
     mk.add(types.InlineKeyboardButton("🔙 Back", callback_data='back_to_main'))
     send_with_link(message.chat.id, f"{BOT_NAME}\n\n💳 Available Plans:", reply_markup=mk, parse_mode='Markdown')
 
