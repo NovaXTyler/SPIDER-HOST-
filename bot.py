@@ -428,7 +428,14 @@ def grant_weekly_bonus(user_id):
         pass
 
 def get_all_plans():
-    return db_fetch_all("SELECT * FROM plans WHERE active = 1 ORDER BY price")
+    rows = db_fetch_all("SELECT * FROM plans WHERE active = 1 ORDER BY price")
+    seen = set()
+    unique = []
+    for r in rows:
+        if r[1] not in seen:
+            seen.add(r[1])
+            unique.append(r)
+    return unique
 
 def find_main_script(user_folder):
     items = os.listdir(user_folder)
@@ -1182,6 +1189,10 @@ def process_admin_opt_add_plan(message):
         parts = [p.strip() for p in message.text.split('|')]
         if len(parts) < 3: raise ValueError("Need at least Name | Price | Bot Limit")
         name = parts[0]
+        existing = db_fetch_one("SELECT plan_id FROM plans WHERE name = ?", (name,))
+        if existing:
+            bot.reply_to(message, f"❌ Plan '{name}' already exists (ID {existing[0]}). Use Edit Plan to modify.")
+            return
         price = float(parts[1]) if parts[1] else 0
         bot_limit = int(parts[2]) if parts[2] else 0
         duration = int(parts[3]) if len(parts) > 3 and parts[3] else 0
@@ -1198,8 +1209,8 @@ def admin_opt_edit_plan(call):
     bot.answer_callback_query(call.id)
     plans = get_all_plans()
     text = "✏️ Edit Plan\n\n" + "\n".join(f"• ID {p[0]}: {p[1]}" for p in plans) + "\n\nEnter Plan ID:"
-    bot.reply_to(message, text, parse_mode='Markdown')
-    msg = bot.send_message(message.chat.id, "Enter Plan ID to edit:")
+    bot.reply_to(call.message, text, parse_mode='Markdown')
+    msg = bot.send_message(call.message.chat.id, "Enter Plan ID to edit:")
     bot.register_next_step_handler(msg, process_admin_opt_edit_plan_id)
 
 def process_admin_opt_edit_plan_id(message):
