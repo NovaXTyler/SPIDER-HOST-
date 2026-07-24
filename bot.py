@@ -910,7 +910,7 @@ ADMIN_PAGES = [
         ("👤 All Users", 'admin_opt_1'), ("🔍 Search", 'admin_opt_3'),
         ("🚫 Ban", 'admin_opt_4'), ("✅ Unban", 'admin_opt_5'),
         ("🗑 Delete", 'admin_opt_6'), ("📊 Bot Count", 'admin_opt_7'),
-        ("📤 Export", 'admin_opt_8'), ("🔎 Details", 'admin_opt_2'),
+        ("📋 Assign Plan", 'admin_opt_10'), ("🔎 Details", 'admin_opt_2'),
     ]),
     ("💎 Plans", [
         ("📋 Assign Plan", 'admin_opt_10'), ("✏️ Edit", 'admin_opt_11'),
