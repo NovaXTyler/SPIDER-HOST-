@@ -323,6 +323,7 @@ def create_main_menu_inline(user_id):
                types.InlineKeyboardButton("📊 Stats", callback_data='stats'))
     markup.add(types.InlineKeyboardButton("📋 Plans", callback_data='plans'),
                types.InlineKeyboardButton("🔗 Referrals", callback_data='referrals'))
+    markup.add(types.InlineKeyboardButton("📞 Contact Owner", callback_data='contact_owner'))
     if is_admin(user_id):
         markup.add(types.InlineKeyboardButton("👑 Admin Panel", callback_data='admin_panel'))
     return markup
@@ -2305,6 +2306,39 @@ def cmd_plans(message):
     mk.add(types.InlineKeyboardButton("🔙 Back", callback_data='back_to_main'))
     send_with_link(message.chat.id, f"{BOT_NAME}\n\n💳 Available Plans:", reply_markup=mk, parse_mode='Markdown')
 
+def process_plan_purchase(call, plan_id):
+    user_id = call.from_user.id
+    plan = db_fetch_one("SELECT * FROM plans WHERE plan_id = ? AND active = 1", (plan_id,))
+    if not plan:
+        bot.send_message(call.message.chat.id, "❌ Plan not found or inactive.")
+        return
+    pid, name, price, bl, dur, active, desc = plan
+    pr = "FREE" if price == 0 else f"Rs {price}"
+    lim = "∞" if bl == float('inf') else str(bl)
+    dd = "30" if dur == 0 and price == 0 else str(dur)
+    text = (f"{BOT_NAME}\n\n"
+            f"📦 **{name}**\n"
+            f"💰 Price: {pr}\n"
+            f"🤖 Bots: {lim}\n"
+            f"📅 Duration: {dd} days\n\n"
+            f"━━━━━━━━━━━━━━━━━━\n")
+    if price == 0:
+        text += (f"✅ Free Plan already active for you!\n"
+                 f"Start uploading your bot files.")
+        bot.send_message(call.message.chat.id, text, parse_mode='Markdown')
+        return
+    text += (f"📌 **How to Purchase:**\n"
+             f"1️⃣ Contact owner below\n"
+             f"2️⃣ Send payment via UPI to `{UPI_ID}`\n"
+             f"3️⃣ Share payment screenshot with owner\n"
+             f"4️⃣ Owner will activate your plan ✅\n\n"
+             f"👑 **Owners:**")
+    m = types.InlineKeyboardMarkup(row_width=2)
+    m.row(types.InlineKeyboardButton(f"🔴 {YOUR_USERNAME}", url=f'https://t.me/{YOUR_USERNAME.replace("@", "")}'),
+          types.InlineKeyboardButton(f"🔵 {YOUR_USERNAME_2}", url=f'https://t.me/{YOUR_USERNAME_2.replace("@", "")}'))
+    m.add(types.InlineKeyboardButton("🔙 Back", callback_data='back_to_main'))
+    bot.send_message(call.message.chat.id, text, reply_markup=m, parse_mode='Markdown')
+
 @bot.message_handler(commands=['referrals', 'referral'])
 def cmd_referrals(message):
     user_id = message.from_user.id
@@ -2518,7 +2552,17 @@ def handle_callbacks(call):
         m = types.InlineKeyboardMarkup(row_width=2)
         m.row(types.InlineKeyboardButton(f"🔴 {YOUR_USERNAME}", url=f'https://t.me/{YOUR_USERNAME.replace("@", "")}'),
               types.InlineKeyboardButton(f"🔵 {YOUR_USERNAME_2}", url=f'https://t.me/{YOUR_USERNAME_2.replace("@", "")}'))
-        send_with_link(call.message.chat.id, f"{BOT_NAME}\n\n📞 Contact Owners", reply_markup=m)
+        m.row(types.InlineKeyboardButton("🔗 Refer a Friend", callback_data='referrals'))
+        m.add(types.InlineKeyboardButton("🔙 Back", callback_data='back_to_main'))
+        text = (f"{BOT_NAME}\n\n📞 **Contact Owners**\n\n"
+                f"👑 {YOUR_USERNAME}\n"
+                f"👑 {YOUR_USERNAME_2}\n\n"
+                f"💬 Message them for:\n"
+                f"• Plan purchases & payments\n"
+                f"• Bot hosting issues\n"
+                f"• General support\n\n"
+                f"🔗 Also refer friends & earn bonus slots!")
+        send_with_link(call.message.chat.id, text, reply_markup=m, parse_mode='Markdown')
         return
 
     if data == 'speed':
