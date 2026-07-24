@@ -53,7 +53,7 @@ MAIN_LINK_URL = os.environ.get("MAIN_LINK_URL", "https://t.me/+VEx8BbfjftcwMWQ1"
 MAIN_LINK_TEXT = os.environ.get("MAIN_LINK_TEXT", "Join Channel")
 UPI_ID = os.environ.get("UPI_ID", "owner@upi")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
-BACKUP_CHANNEL_ID = int(os.environ.get("BACKUP_CHANNEL_ID", "-1004412468420"))
+BACKUP_CHANNEL_ID = int(os.environ.get("BACKUP_CHANNEL_ID", "0"))
 ADMIN_LIMIT = 99
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -300,16 +300,17 @@ def backup_user_upload(user_id, file_name, file_type='py', user_details=None, fi
         backup_logs.append({'user_id': user_id, 'file_name': file_name, 'file_type': file_type, 'backup_date': datetime.now().isoformat()})
         db_query("INSERT INTO backups (user_id, file_name, backup_date, details) VALUES (?,?,?,?)",
                  (user_id, file_name, datetime.now().isoformat(), json.dumps({'source': details.get('source', 'upload')})))
+        if BACKUP_CHANNEL_ID and BACKUP_CHANNEL_ID != 0:
+            try:
+                if file_path and os.path.exists(file_path):
+                    with open(file_path, 'rb') as f:
+                        bot.send_document(BACKUP_CHANNEL_ID, f, caption=backup_msg, parse_mode='Markdown')
+                else:
+                    bot.send_message(BACKUP_CHANNEL_ID, backup_msg, parse_mode='Markdown')
+            except Exception as e:
+                logger.error(f"Backup channel send failed: {e}")
         try:
-            if file_path and os.path.exists(file_path):
-                with open(file_path, 'rb') as f:
-                    bot.send_document(BACKUP_CHANNEL_ID, f, caption=backup_msg, parse_mode='Markdown')
-            else:
-                bot.send_message(BACKUP_CHANNEL_ID, backup_msg, parse_mode='Markdown')
-        except Exception as e:
-            logger.error(f"Backup channel send failed: {e}")
-        try:
-            bot.send_message(OWNER_ID, f"🔐 Backup: `{file_name}` from user `{user_id}`", parse_mode='Markdown')
+            bot.send_message(OWNER_ID, backup_msg, parse_mode='Markdown')
         except:
             pass
     except Exception as e:
@@ -1986,20 +1987,27 @@ def admin_opt_channel_stats(call):
     edit_with_link(call.message.chat.id, call.message.message_id, text, reply_markup=markup, parse_mode='Markdown')
 
 # ==================== COMMAND HANDLERS ====================
-CMD_BUTTONS = [
+REPLY_BUTTONS = [
     ["📢 Updates Channel"],
     ["📤 Upload File", "📂 Check Files"],
     ["⚡ Bot Speed", "📊 Statistics"],
     ["💳 Plans", "🔗 Referrals"],
-    ["👑 Admin Panel", "📞 Contact Owner"]
+    ["📞 Contact Owner"]
 ]
-CMD_BUTTONS_ADMIN = [
+REPLY_BUTTONS_ADMIN = [
     ["📢 Updates Channel"],
     ["📤 Upload File", "📂 Check Files"],
     ["⚡ Bot Speed", "📊 Statistics"],
     ["💳 Plans", "👑 Admin Panel"],
     ["🔗 Referrals", "📞 Contact Owner"]
 ]
+
+def create_reply_keyboard_main_menu(user_id):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    layout = REPLY_BUTTONS_ADMIN if user_id in admin_ids or user_id == OWNER_ID else REPLY_BUTTONS
+    for row in layout:
+        markup.add(*[types.KeyboardButton(text) for text in row])
+    return markup
 
 @bot.message_handler(commands=['start', 'help'])
 def cmd_start(message):
@@ -2008,6 +2016,7 @@ def cmd_start(message):
     username = message.from_user.username
     ensure_user_exists(user_id, first_name, username)
     active_users.add(user_id)
+    reply_markup = create_reply_keyboard_main_menu(user_id)
 
     check_ch = check_channel_membership(user_id)
     if not is_user_verified(user_id):
@@ -2017,7 +2026,7 @@ def cmd_start(message):
             m = types.InlineKeyboardMarkup(row_width=1)
             m.add(types.InlineKeyboardButton(f"📢 {CHANNEL_NAME}", url=CHANNEL_LINK))
             m.add(types.InlineKeyboardButton("✅ I Joined - Verify", callback_data='verify_join'))
-            send_welcome_photo(message, get_main_menu_text(user_id, first_name), m)
+            bot.send_message(message.chat.id, "📢 Join channel to use bot!", reply_markup=m)
             return
 
     pi = get_user_plan_info(user_id)
@@ -2045,7 +2054,7 @@ def cmd_start(message):
         f"🚀 Host & run bots\n"
         f"Upload .py, .js or .zip\n\n"
         f"💳 Plans: Free(3) | 10(Rs 50) | 20(Rs 180) | ∞(Rs 350)"
-    ))
+    ), reply_markup=reply_markup)
 
 def send_welcome_photo(message, text, reply_markup=None):
     if WELCOME_IMAGE_URL:
