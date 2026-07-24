@@ -44,7 +44,6 @@ OWNER_ID = int(os.environ.get("OWNER_ID", "6650888707"))
 OWNER_ID_2 = int(os.environ.get("OWNER_ID_2", "8994613565"))
 ADMIN_ID = int(os.environ.get("ADMIN_ID", "6650888707"))
 YOUR_USERNAME = os.environ.get("YOUR_USERNAME", "@TylerDurden21")
-YOUR_USERNAME_2 = os.environ.get("YOUR_USERNAME_2", "@SegsyToxic95")
 CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1004412468420"))
 CHANNEL_NAME = os.environ.get("CHANNEL_NAME", "Spider Host Official")
 CHANNEL_LINK = os.environ.get("CHANNEL_LINK", "https://t.me/+VEx8BbfjftcwMWQ1")
@@ -323,7 +322,7 @@ def create_main_menu_inline(user_id):
                types.InlineKeyboardButton("📊 Stats", callback_data='stats'))
     markup.add(types.InlineKeyboardButton("📋 Plans", callback_data='plans'),
                types.InlineKeyboardButton("🔗 Referrals", callback_data='referrals'))
-    markup.add(types.InlineKeyboardButton("📞 Contact Owner", callback_data='contact_owner'))
+    markup.add(types.InlineKeyboardButton("📞 Contact Developer", callback_data='contact_owner'))
     if is_admin(user_id):
         markup.add(types.InlineKeyboardButton("👑 Admin Panel", callback_data='admin_panel'))
     return markup
@@ -2115,14 +2114,14 @@ REPLY_BUTTONS = [
     ["📤 Upload File", "📂 Check Files"],
     ["⚡ Bot Speed", "📊 Statistics"],
     ["💳 Plans", "🔗 Referrals"],
-    ["📞 Contact Owner"]
+    ["📞 Contact Developer"]
 ]
 REPLY_BUTTONS_ADMIN = [
     ["📢 Updates Channel"],
     ["📤 Upload File", "📂 Check Files"],
     ["⚡ Bot Speed", "📊 Statistics"],
     ["💳 Plans", "👑 Admin Panel"],
-    ["🔗 Referrals", "📞 Contact Owner"]
+    ["🔗 Referrals", "📞 Contact Developer"]
 ]
 
 def create_reply_keyboard_main_menu(user_id):
@@ -2328,14 +2327,13 @@ def process_plan_purchase(call, plan_id):
         bot.send_message(call.message.chat.id, text, parse_mode='Markdown')
         return
     text += (f"📌 **How to Purchase:**\n"
-             f"1️⃣ Contact owner below\n"
-             f"2️⃣ Send payment via UPI to `{UPI_ID}`\n"
-             f"3️⃣ Share payment screenshot with owner\n"
-             f"4️⃣ Owner will activate your plan ✅\n\n"
-             f"👑 **Owners:**")
-    m = types.InlineKeyboardMarkup(row_width=2)
-    m.row(types.InlineKeyboardButton(f"🔴 {YOUR_USERNAME}", url=f'https://t.me/{YOUR_USERNAME.replace("@", "")}'),
-          types.InlineKeyboardButton(f"🔵 {YOUR_USERNAME_2}", url=f'https://t.me/{YOUR_USERNAME_2.replace("@", "")}'))
+             f"1. Contact developer below\n"
+             f"2. Send payment via UPI to `{UPI_ID}`\n"
+             f"3. Share payment screenshot\n"
+             f"4. Developer will activate your plan\n\n"
+             f"👑 **Developer:** {YOUR_USERNAME}")
+    m = types.InlineKeyboardMarkup(row_width=1)
+    m.add(types.InlineKeyboardButton(f"💬 {YOUR_USERNAME}", url=f'https://t.me/{YOUR_USERNAME.replace("@", "")}'))
     m.add(types.InlineKeyboardButton("🔙 Back", callback_data='back_to_main'))
     bot.send_message(call.message.chat.id, text, reply_markup=m, parse_mode='Markdown')
 
@@ -2549,19 +2547,17 @@ def handle_callbacks(call):
 
     if data == 'contact_owner' or data == 'contact_owner1' or data == 'contact_owner2':
         bot.answer_callback_query(call.id)
-        m = types.InlineKeyboardMarkup(row_width=2)
-        m.row(types.InlineKeyboardButton(f"🔴 {YOUR_USERNAME}", url=f'https://t.me/{YOUR_USERNAME.replace("@", "")}'),
-              types.InlineKeyboardButton(f"🔵 {YOUR_USERNAME_2}", url=f'https://t.me/{YOUR_USERNAME_2.replace("@", "")}'))
-        m.row(types.InlineKeyboardButton("🔗 Refer a Friend", callback_data='referrals'))
-        m.add(types.InlineKeyboardButton("🔙 Back", callback_data='back_to_main'))
-        text = (f"{BOT_NAME}\n\n📞 **Contact Owners**\n\n"
-                f"👑 {YOUR_USERNAME}\n"
-                f"👑 {YOUR_USERNAME_2}\n\n"
-                f"💬 Message them for:\n"
-                f"• Plan purchases & payments\n"
-                f"• Bot hosting issues\n"
-                f"• General support\n\n"
-                f"🔗 Also refer friends & earn bonus slots!")
+        m = types.InlineKeyboardMarkup(row_width=1)
+        m.add(types.InlineKeyboardButton(f"💬 {YOUR_USERNAME}", url=f'https://t.me/{YOUR_USERNAME.replace("@", "")}'))
+        m.row(types.InlineKeyboardButton("🔗 Refer a Friend", callback_data='referrals'),
+              types.InlineKeyboardButton("🔙 Back", callback_data='back_to_main'))
+        text = (f"{BOT_NAME}\n\n"
+                f"📞 **Contact Developer**\n\n"
+                f"👤 {YOUR_USERNAME}\n\n"
+                f"Message for:\n"
+                f"- Plan purchases & payments\n"
+                f"- Bot hosting issues\n"
+                f"- General support")
         send_with_link(call.message.chat.id, text, reply_markup=m, parse_mode='Markdown')
         return
 
@@ -2834,17 +2830,14 @@ def handle_text(message):
         cmd_stats(message)
     elif text == "💳 Plans" or text == "💳 Subscriptions":
         cmd_plans(message)
-    elif text == "📞 Contact Owner" or text == "📞 Contact":
-        cmd_referrals(message)
     elif text == "🔗 Referrals" or text == "🔗 Referral Program":
         cmd_referrals(message)
     elif text == "👑 Admin Panel":
         cmd_admin_panel(message)
-    elif text == "📞 Contact Owner":
-        m = types.InlineKeyboardMarkup(row_width=2)
-        m.row(types.InlineKeyboardButton(f"🔴 {YOUR_USERNAME}", url=f'https://t.me/{YOUR_USERNAME.replace("@", "")}'),
-              types.InlineKeyboardButton(f"🔵 {YOUR_USERNAME_2}", url=f'https://t.me/{YOUR_USERNAME_2.replace("@", "")}'))
-        send_with_link(message.chat.id, f"{BOT_NAME}\n\n📞 Contact Owners", reply_markup=m)
+    elif text == "📞 Contact Developer" or text == "📞 Contact":
+        m = types.InlineKeyboardMarkup(row_width=1)
+        m.add(types.InlineKeyboardButton(f"💬 {YOUR_USERNAME}", url=f'https://t.me/{YOUR_USERNAME.replace("@", "")}'))
+        send_with_link(message.chat.id, f"{BOT_NAME}\n\n📞 Contact Developer: {YOUR_USERNAME}", reply_markup=m)
     else:
         # Check if it's a UPI reference for payment verification
         if text.startswith('/verify_payment') or text.startswith('upi_') or (len(text) > 5 and 'spider' in text.lower()):
